@@ -37,9 +37,10 @@ const expenseSlice = createSlice({
         },
         searchExpense: (state, action) => {
             const { query } = action.payload
-            const filteredExpense = state.filter(expense => {
+            const filteredExpense = state.filter((expense) => {
                 const title = expense.title.toLowerCase().includes(query.toLowerCase())
-                return title
+                const category = expense.category.toLowerCase().includes(query.toLowerCase())
+                return title || category
             })
             return filteredExpense
         }
