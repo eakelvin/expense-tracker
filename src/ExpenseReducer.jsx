@@ -21,13 +21,14 @@ const expenseSlice = createSlice({
             localStorage.setItem("expense-list", JSON.stringify(state))
         },
         editExpense: (state, action) => {
-            const {id, title, amount} = action.payload
-            const updatedExpense = state.find(user => user.id == id)
-            if(updatedExpense) {
-                updatedExpense.title = title
-                updatedExpense.amount = amount
+            // state.map((expense) => expense.id === action.payload.id ? action.payload : expense)
+            // localStorage.setItem("expense-list", JSON.stringify(state))
+            const { id } = action.payload;
+            const index = state.findIndex((expense) => expense.id === id);
+            if (index !== -1) {
+              state[index] = action.payload;
+              localStorage.setItem('expense-list', JSON.stringify(state));
             }
-            console.log(action);
         },
         deleteExpense: (state, action) => {
             const { id } = action.payload
