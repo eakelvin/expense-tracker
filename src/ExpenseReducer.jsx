@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const initialExpense = () => {
     const list = localStorage.getItem("expense-list")
+    // const expenseList = JSON.parse(localStorage.getItem("expense-list")) || []
     let expenseList = []
     if(list) {
         expenseList = JSON.parse(list)
@@ -37,13 +38,9 @@ const expenseSlice = createSlice({
             return [...updatedExpense]
         },
         searchExpense: (state, action) => {
-            const { query } = action.payload
-            const filteredExpense = state.filter((expense) => {
-                const title = expense.title.toLowerCase().includes(query.toLowerCase())
-                const category = expense.category.toLowerCase().includes(query.toLowerCase())
-                return title || category
-            })
-            return filteredExpense
+             return state.filter((expense) => 
+                expense.category.toLowerCase().includes(action.payload)
+            )
         }
 
     }
