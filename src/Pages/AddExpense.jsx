@@ -2,19 +2,20 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoMdArrowBack } from "react-icons/io";
 import { addExpense } from '../ExpenseReducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../Components/Modal';
 import { FcCheckmark } from "react-icons/fc";
 import { MdSchool } from "react-icons/md";
-
-
+import { v4 as uuidv4 } from "uuid";
 
 
 function AddExpense() {
+  const expense = useSelector((state) => state.expense)
   const dispatch = useDispatch()
   const [openModal, setOpenModal] = useState(false)
 
   const [dataForm, setDataForm] = useState({
+    id: uuidv4(),
     title: "",
     amount:"",
     category: ""

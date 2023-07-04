@@ -14,37 +14,37 @@ const initialExpense = () => {
 
 const expenseSlice = createSlice({
     name:"expense",
-    initialState: initialExpense(),
+    initialState: {
+        expenseContainer: initialExpense(),
+    },
+    // initialState: initialExpense,
     reducers: {
         addExpense: (state, action) => {
-            const newExpense = {...action.payload, id: uuidv4()}
-            state.push(newExpense)
-            localStorage.setItem("expense-list", JSON.stringify(state))
+            const newExpense = {...action.payload}
+            state.expenseContainer.push(newExpense)
+            localStorage.setItem("expense-list", JSON.stringify(state.expenseContainer))
         },
         editExpense: (state, action) => {
             // state.map((expense) => expense.id === action.payload.id ? action.payload : expense)
             // localStorage.setItem("expense-list", JSON.stringify(state))
             const { id } = action.payload;
-            const index = state.findIndex((expense) => expense.id === id);
+            const index = state.expenseContainer.findIndex((expense) => expense.id === id);
             if (index !== -1) {
-              state[index] = action.payload;
-              localStorage.setItem('expense-list', JSON.stringify(state));
+              state.expenseContainer[index] = action.payload;
+              localStorage.setItem('expense-list', JSON.stringify(state.expenseContainer));
             }
         },
         deleteExpense: (state, action) => {
             const { id } = action.payload
-            const updatedExpense = state.filter((item) => item.id !== id)
-            localStorage.setItem("expense-list", JSON.stringify(updatedExpense))
-            return [...updatedExpense]
+            const updatedExpenseContainer = state.expenseContainer.filter((item) => item.id !== id)
+            localStorage.setItem("expense-list", JSON.stringify(updatedExpenseContainer))
+            return {
+                ...state,
+                expenseContainer: updatedExpenseContainer
+            }
         },
-        searchExpense: (state, action) => {
-             return state.filter((expense) => 
-                expense.category.toLowerCase().includes(action.payload)
-            )
-        }
-
     }
 })
 
-export const { addExpense, editExpense, deleteExpense, searchExpense } = expenseSlice.actions
+export const { addExpense, editExpense, deleteExpense } = expenseSlice.actions
 export default expenseSlice.reducer

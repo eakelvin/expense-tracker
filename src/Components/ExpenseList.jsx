@@ -8,7 +8,8 @@ import Modal from './Modal';
 import EditExpense from './EditExpense';
 
 function ExpenseList() {
-    const expense = useSelector((state) => state.expense) 
+    const expense = useSelector((state) => state.expense)
+    const expenseContainer = useSelector((state) => state.expense.expenseContainer) 
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false)
     const [prefill, setPrefill] = useState(null)
@@ -23,13 +24,13 @@ function ExpenseList() {
         dispatch(deleteExpense(item))
       }
     }
-    
+
   return (
     <>
        <main className='bg-gray-100 mt-10'>
             <div className="px-5 mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
               {
-                  expense.map((item) => (
+                  expenseContainer.map((item) => (
                       <div key={item.id} item={item}>
                           <div className='border rounded-lg p-10 mb-3'>
                           <div className='capitalize text-3xl border-b-4 border-indigo-500'>{item.category}</div>
